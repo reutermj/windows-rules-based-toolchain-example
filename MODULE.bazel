@@ -1,0 +1,18 @@
+module(name = "toolchains_cc")
+
+bazel_dep(name = "rules_cc", version = "0.1.1")
+git_override(
+    module_name = "rules_cc",
+    remote = "https://github.com/reutermj/rules_cc.git",
+    commit = "75ba32cf784f3faa9cd783168e7e450a0093e641",
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+
+cxx_toolchain = use_repo_rule("//:toolchain.bzl", "cxx_toolchain")
+
+cxx_toolchain(
+    name = "llvm_toolchain",
+)
+register_toolchains("@llvm_toolchain//:host_toolchain")
+
